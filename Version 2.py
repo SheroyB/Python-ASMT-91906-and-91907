@@ -6,3 +6,6 @@ from tkinter import messagebox
 import json
 import os
 from datetime import datetime
+
+data_file = "screentime_log.json"
+daily_limit_minutes = 120
