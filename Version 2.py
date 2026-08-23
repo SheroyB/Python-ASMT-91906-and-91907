@@ -85,3 +85,25 @@ def log_screen_time():
     minutes_entry.delete(0, END)
 
     update_status()
+
+def update_status():
+    entries = load_entries()
+    today = datetime.now().strftime("%Y-%m-%d")
+    total_today = 0
+    for saved_entry in entries:
+        if saved_entry["date"] == today:
+            total_today = total_today + saved_entry["minutes"]
+
+    if total_today > daily_limit_minutes:
+        over_by = total_today - daily_limit_minutes
+        status_label.config(text=f"Today's total: {total_today}m ({over_by}m over the limit)")
+    else:
+        remaining = daily_limit_minutes - total_today
+        status_label.config(text=f"Today's total: {total_today}m ({remaining}m remaining)")
+
+    if total_today > daily_limit_minutes + 120:
+        sleep_label.config(text="High impact on sleep", bg="red")
+    elif total_today > daily_limit_minutes:
+        sleep_label.config(text="Medium impact on sleep", bg="yellow")
+    else:
+        sleep_label.config(text="Low impact on sleep", bg="green")
