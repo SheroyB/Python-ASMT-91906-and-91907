@@ -9,3 +9,13 @@ from datetime import datetime
 
 data_file = "screentime_log.json"
 daily_limit_minutes = 120
+
+class ScreentimeEntry:
+    def __init__(self, app, minutes, date, time):
+        self.app = app
+        self.minutes = minutes
+        self.date = date
+        self.time = time
+
+    def to_dict(self):
+        return {"app": self.app, "minutes": self.minutes, "date": self.date, "time": self.time}
