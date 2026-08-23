@@ -107,3 +107,9 @@ def update_status():
         sleep_label.config(text="Medium impact on sleep", bg="yellow")
     else:
         sleep_label.config(text="Low impact on sleep", bg="green")
+
+Button(window, text="Log Screen Time", command=log_screen_time).grid(row=7, column=0, pady=15)
+
+update_status()
+
+window.mainloop()
