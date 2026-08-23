@@ -55,3 +55,33 @@ status_label.grid(row=5, column=0, pady=(15, 0))
 
 sleep_label = Label(window, text="", font=("Arial", 10, "bold"), padx=10, pady=3)
 sleep_label.grid(row=6, column=0, pady=(5, 0))
+
+def log_screen_time():
+    app_name = app_entry.get().strip()
+    minutes_text = minutes_entry.get().strip()
+
+    if not app_name.isalpha():
+        messagebox.showerror("Invalid Input", "App name must only contain letters")
+        return
+
+    try:
+        minutes = int(minutes_text)
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Minutes must be a whole number")
+        return
+
+    if minutes <= 0:
+        messagebox.showerror("Invalid Input", "Minutes must be greater than 0")
+        return
+
+    now = datetime.now()
+    entry = ScreentimeEntry(app_name, minutes, now.strftime("%Y-%m-%d"), now.strftime("%H:%M"))
+
+    entries = load_entries()
+    entries.append(entry.to_dict())
+    save_entries(entries)
+
+    app_entry.delete(0, END)
+    minutes_entry.delete(0, END)
+
+    update_status()
