@@ -29,3 +29,7 @@ class ScreentimeEntry:
         return entries
     except:
         return []
+
+    def save_entries(entries):
+    with open(data_file, "w") as file:
+        json.dump(entries, file)
