@@ -33,3 +33,9 @@ def load_entries():
 def save_entries(entries):
     with open(data_file, "w") as file:
         json.dump(entries, file)
+
+window = Tk()
+window.title("Screentime")
+window.geometry("350x350")
+
+window.grid_columnconfigure(0, weight=1)
