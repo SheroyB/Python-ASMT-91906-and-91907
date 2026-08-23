@@ -19,3 +19,13 @@ class ScreentimeEntry:
 
     def to_dict(self):
         return {"app": self.app, "minutes": self.minutes, "date": self.date, "time": self.time}
+
+    def load_entries():
+    if not os.path.exists(data_file):
+        return []
+    try:
+        with open(data_file, "r") as file:
+            entries = json.load(file)
+        return entries
+    except:
+        return []
