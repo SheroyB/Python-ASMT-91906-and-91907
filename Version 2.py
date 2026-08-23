@@ -20,7 +20,7 @@ class ScreentimeEntry:
     def to_dict(self):
         return {"app": self.app, "minutes": self.minutes, "date": self.date, "time": self.time}
 
-    def load_entries():
+def load_entries():
     if not os.path.exists(data_file):
         return []
     try:
@@ -30,6 +30,6 @@ class ScreentimeEntry:
     except:
         return []
 
-    def save_entries(entries):
+def save_entries(entries):
     with open(data_file, "w") as file:
         json.dump(entries, file)
