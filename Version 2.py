@@ -49,3 +49,9 @@ app_entry.grid(row=2, column=0, pady=5)
 Label(window, text="Minutes spent:").grid(row=3, column=0)
 minutes_entry = Entry(window, justify="center")
 minutes_entry.grid(row=4, column=0, pady=5)
+
+status_label = Label(window, text="", font=("Arial", 10))
+status_label.grid(row=5, column=0, pady=(15, 0))
+
+sleep_label = Label(window, text="", font=("Arial", 10, "bold"), padx=10, pady=3)
+sleep_label.grid(row=6, column=0, pady=(5, 0))
