@@ -40,7 +40,7 @@ def save_entries(entries):
 
 window = Tk()
 window.title("Screentime")
-window.geometry("350x350")
+window.geometry("350x420")
 
 window.grid_columnconfigure(0, weight=1) # Lets column 0 stay centred as the window resizes
 
@@ -59,6 +59,12 @@ status_label.grid(row=5, column=0, pady=(15, 0))
 
 sleep_label = Label(window, text="", font=("Arial", 10, "bold"), padx=10, pady=3) # Coloured badge
 sleep_label.grid(row=6, column=0, pady=(5, 0))
+
+breakdown_label = Label(window, text="", font=("Arial", 9), justify="center")
+breakdown_label.grid(row=7, column=0, pady=(15, 0))
+
+dominant_label = Label(window, text="", font=("Arial", 9, "bold"))
+dominant_label.grid(row=8, column=0, pady=(5, 0))
 
 def log_screen_time():
     # Validates the form, creates a ScreentimeEntry, saves it, then updates the labels
@@ -117,7 +123,7 @@ def update_status():
     else: # At or under the daily limit
         sleep_label.config(text="Low impact on sleep", bg="green")
 
-Button(window, text="Log Screen Time", command=log_screen_time).grid(row=7, column=0, pady=15)
+Button(window, text="Log Screen Time", command=log_screen_time).grid(row=9, column=0, pady=15)
 
 update_status() # Runs once on startup so the labels are correct even before logging anything new
 
