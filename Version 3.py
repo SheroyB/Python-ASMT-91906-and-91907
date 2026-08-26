@@ -109,7 +109,7 @@ def update_status():
             total_today = total_today + saved_entry["minutes"]
             app = saved_entry["app"]
             if app in app_totals:
-                app_totals[app] = app_totals[app] + saved_entry["minute"]
+                app_totals[app] = app_totals[app] + saved_entry["minutes"]
             else:
                 app_totals[app] = saved_entry["minutes"]
 
