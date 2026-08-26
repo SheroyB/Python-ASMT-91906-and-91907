@@ -103,9 +103,15 @@ def update_status():
     entries = load_entries() # Load whatever is currently saved, could be empty or have old data
     today = datetime.now().strftime("%Y-%m-%d") # Today's date as text, so it matches saved entries
     total_today = 0
+    app_totals = {}
     for saved_entry in entries: # Goes through every saved entry, from every day
         if saved_entry["date"] == today: # Only counts the ones that match today's date
             total_today = total_today + saved_entry["minutes"]
+            app = saved_entry["app"]
+            if app in app_totals:
+                app_totals[app] = app_totals[app] + saved_entry["minute"]
+            else:
+                app_totals[app] = saved_entry["minutes"]
 
     if total_today > daily_limit_minutes:
         over_by = total_today - daily_limit_minutes
