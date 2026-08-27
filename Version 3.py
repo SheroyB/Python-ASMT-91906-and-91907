@@ -139,7 +139,7 @@ def update_status():
             highest_minutes = app_totals[app]
             dominant_app = app
 
-    if dominant_app = "":
+    if dominant_app == "":
         dominant_label.config(text="")
     else:
         dominant_label.config(text=f"Most of today's time was on {dominant_app}")
