@@ -7,7 +7,7 @@ import json
 import os
 from datetime import datetime
 
-data_file = "screentime_log.json" # Name of the file that stores all saved entries
+data_file = "screentime_log.json" # Name of the file that stores all saved entries.
 daily_limit_minutes = 120 # General daily screentime guideline used for comparison
 
 class ScreentimeEntry:
