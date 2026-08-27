@@ -60,10 +60,10 @@ status_label.grid(row=5, column=0, pady=(15, 0))
 sleep_label = Label(window, text="", font=("Arial", 10, "bold"), padx=10, pady=3) # Coloured badge
 sleep_label.grid(row=6, column=0, pady=(5, 0))
 
-breakdown_label = Label(window, text="", font=("Arial", 9), justify="center")
+breakdown_label = Label(window, text="", font=("Arial", 9), justify="center") # Lists each app and its minutes
 breakdown_label.grid(row=7, column=0, pady=(15, 0))
 
-dominant_label = Label(window, text="", font=("Arial", 9, "bold"))
+dominant_label = Label(window, text="", font=("Arial", 9, "bold")) # Shows which app used the most time
 dominant_label.grid(row=8, column=0, pady=(5, 0))
 
 def log_screen_time():
@@ -103,14 +103,14 @@ def update_status():
     entries = load_entries() # Load whatever is currently saved, could be empty or have old data
     today = datetime.now().strftime("%Y-%m-%d") # Today's date as text, so it matches saved entries
     total_today = 0
-    app_totals = {}
+    app_totals = {} # Dictionary that maps each app name to its total minutes today
     for saved_entry in entries: # Goes through every saved entry, from every day
         if saved_entry["date"] == today: # Only counts the ones that match today's date
             total_today = total_today + saved_entry["minutes"]
             app = saved_entry["app"]
-            if app in app_totals:
+            if app in app_totals: # This app has already shown up today, add to its total
                 app_totals[app] = app_totals[app] + saved_entry["minutes"]
-            else:
+            else: # First time seeing this app today, start it off
                 app_totals[app] = saved_entry["minutes"]
 
     if total_today > daily_limit_minutes:
@@ -128,10 +128,12 @@ def update_status():
         sleep_label.config(text="Medium impact on sleep", bg="yellow")
     else: # At or under the daily limit
         sleep_label.config(text="Low impact on sleep", bg="green")
+    # Builds the breakdown text, one line per app
     breakdown_text = ""
     for app in app_totals:
         breakdown_text = breakdown_text + app + " " + str(app_totals[app]) + "m\n"
     breakdown_label.config(text=breakdown_text)
+    # Finds whichever app has the highest total by comparing as it goes
     dominant_app = ""
     highest_minutes = 0
     for app in app_totals:
@@ -139,7 +141,7 @@ def update_status():
             highest_minutes = app_totals[app]
             dominant_app = app
 
-    if dominant_app == "":
+    if dominant_app == "": # Only show a message if something has actually been logged today
         dominant_label.config(text="")
     else:
         dominant_label.config(text=f"Most of today's time was on {dominant_app}")
