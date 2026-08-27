@@ -23,7 +23,7 @@ while True: #Main loop that keeps showing the menu until the user exits
         while True:
             try:
                 minutes = int(input("Minutes spent on this app: "))
-                if minutes <= 0: #Checks that user entered a number greater than 0
+                if minutes <= 0: #Checks that user entered a number greater than 0.
                     print("Minutes must be greater than 0")
                     continue
                 break
