@@ -1,3 +1,3 @@
 
-Youtube,1
-insts,620
+Youtube,40
+Tiktok,25
