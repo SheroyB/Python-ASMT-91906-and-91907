@@ -1,5 +1,6 @@
-'''This program is the second version of a screentime awareness app,
-it uses a Tkinter GUI, a ScreentimeEntry class, and saves data to a JSON file.'''
+'''This program is the third version of a screentime awareness app,
+it uses a Tkinter GUI, a ScreentimeEntry class, and saves data to a JSON file.
+This version adds a per-app breakdown and finds the dominant app for today.'''
 
 from tkinter import *
 from tkinter import messagebox
@@ -7,7 +8,7 @@ import json
 import os
 from datetime import datetime
 
-data_file = "screentime_log.json" # Name of the file that stores all saved entries
+data_file = "screentimelog.json" # Name of the file that stores all saved entries
 daily_limit_minutes = 120 # General daily screentime guideline used for comparison
 
 class ScreentimeEntry:
@@ -39,7 +40,7 @@ def save_entries(entries):
 
 window = Tk()
 window.title("Screentime")
-window.geometry("350x350")
+window.geometry("350x420")
 
 window.grid_columnconfigure(0, weight=1) # Lets column 0 stay centred as the window resizes
 
@@ -58,6 +59,12 @@ status_label.grid(row=5, column=0, pady=(15, 0))
 
 sleep_label = Label(window, text="", font=("Arial", 10, "bold"), padx=10, pady=3) # Coloured badge
 sleep_label.grid(row=6, column=0, pady=(5, 0))
+
+breakdown_label = Label(window, text="", font=("Arial", 9), justify="center") # Lists each app and its minutes
+breakdown_label.grid(row=7, column=0, pady=(15, 0))
+
+dominant_label = Label(window, text="", font=("Arial", 9, "bold")) # Shows which app used the most time
+dominant_label.grid(row=8, column=0, pady=(5, 0))
 
 def log_screen_time():
     # Validates the form, creates a ScreentimeEntry, saves it, then updates the labels
@@ -96,9 +103,15 @@ def update_status():
     entries = load_entries() # Load whatever is currently saved, could be empty or have old data
     today = datetime.now().strftime("%Y-%m-%d") # Today's date as text, so it matches saved entries
     total_today = 0
+    app_totals = {} # Dictionary that maps each app name to its total minutes today
     for saved_entry in entries: # Goes through every saved entry, from every day
         if saved_entry["date"] == today: # Only counts the ones that match today's date
             total_today = total_today + saved_entry["minutes"]
+            app = saved_entry["app"]
+            if app in app_totals: # This app has already shown up today, add to its total
+                app_totals[app] = app_totals[app] + saved_entry["minutes"]
+            else: # First time seeing this app today, start it off
+                app_totals[app] = saved_entry["minutes"]
 
     if total_today > daily_limit_minutes:
         over_by = total_today - daily_limit_minutes
@@ -115,8 +128,25 @@ def update_status():
         sleep_label.config(text="Medium impact on sleep", bg="yellow")
     else: # At or under the daily limit
         sleep_label.config(text="Low impact on sleep", bg="green")
+    # Builds the breakdown text, one line per app
+    breakdown_text = ""
+    for app in app_totals:
+        breakdown_text = breakdown_text + app + " " + str(app_totals[app]) + "m\n"
+    breakdown_label.config(text=breakdown_text)
+    # Finds whichever app has the highest total by comparing as it goes
+    dominant_app = ""
+    highest_minutes = 0
+    for app in app_totals:
+        if app_totals[app] > highest_minutes:
+            highest_minutes = app_totals[app]
+            dominant_app = app
 
-Button(window, text="Log Screen Time", command=log_screen_time).grid(row=7, column=0, pady=15)
+    if dominant_app == "": # Only show a message if something has actually been logged today
+        dominant_label.config(text="")
+    else:
+        dominant_label.config(text=f"Most of today's time was on {dominant_app}")
+
+Button(window, text="Log Screen Time", command=log_screen_time).grid(row=9, column=0, pady=15)
 
 update_status() # Runs once on startup so the labels are correct even before logging anything new
 
