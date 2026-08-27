@@ -131,7 +131,7 @@ def update_status():
     breakdown_text = ""
     for app in app_totals:
         breakdown_text = breakdown_text + app + " " + str(app_totals[app]) + "m\n"
-    breakdown_label.config(text=breakdown_txt)
+    breakdown_label.config(text=breakdown_text)
 
 Button(window, text="Log Screen Time", command=log_screen_time).grid(row=9, column=0, pady=15)
 
