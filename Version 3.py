@@ -132,6 +132,17 @@ def update_status():
     for app in app_totals:
         breakdown_text = breakdown_text + app + " " + str(app_totals[app]) + "m\n"
     breakdown_label.config(text=breakdown_text)
+    dominant_app = ""
+    highest_minutes = 0
+    for app in app_totals:
+        if app_totals[app] > highest_minutes:
+            highest_minutes = app_totals[app]
+            dominant_app = app
+
+    if dominant_app = "":
+        dominant_label.config(text="")
+    else:
+        dominant_label.config(text=f"Most of today's time was on {dominant_app}")
 
 Button(window, text="Log Screen Time", command=log_screen_time).grid(row=9, column=0, pady=15)
 
